@@ -4,47 +4,46 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField]
     public float speed = 5f;
     [SerializeField]
-    public float jumpHeight = 2f;
+    public float jumpHeight = 1f;
     public float gravity = -9.81f;
-    private CharacterController CharacterController;
-    private Rigidbody RigidBody;
+
+    private CharacterController characterController;
 
     private bool isGrounded;
     private Vector3 velocity;
 
-    // New Jump variables
     [SerializeField]
     public int maxJumps = 2; // How many jumps are allowed
     private int jumpsLeft;
     public Animator animator;
 
+    [SerializeField]
+    private Transform cameraTransform;
 
     void Start()
     {
-        CharacterController = GetComponent<CharacterController>();
-        RigidBody = GetComponent<Rigidbody>();
-
-
+        characterController = GetComponent<CharacterController>();
+        jumpsLeft = maxJumps; // Initialize jumps left
     }
-
-
 
     void Update()
     {
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = 0; // Reset vertical velocity when grounded
-        }
+        // Check if the player is grounded
+        isGrounded = characterController.isGrounded;
 
-        if (velocity.y == 0)
+        // Reset vertical velocity and jumps when grounded
+        if (isGrounded)
         {
+            if (velocity.y < 0)
+            {
+                velocity.y = 0;
+            }
             jumpsLeft = maxJumps;
+            animator.SetBool("Ground", true);
         }
-        Debug.Log(jumpsLeft);
 
         float movx = Input.GetAxis("Horizontal");
         float movz = Input.GetAxis("Vertical");
@@ -52,28 +51,29 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("inputH", movx);
         animator.SetFloat("inputV", movz);
 
-        Vector3 movementVector = new Vector3(movx, 0, movz);
 
-        if (movementVector.magnitude != 0)
-        {
-            transform.forward = movementVector;
-            CharacterController.SimpleMove(movementVector * speed);
-        }
+
+        Vector3 movementVector = new Vector3(movx, 0, movz);
+        movementVector = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * movementVector;
+        movementVector = movementVector.normalized * speed;
 
         if (Input.GetButtonDown("Jump") && jumpsLeft > 0)
         {
-            Debug.Log(":)");
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate jump velocity
-            jumpsLeft--; // Decrease jumps left
+            Jump();
         }
 
-
-        // Apply gravity
         velocity.y += gravity * Time.deltaTime;
 
-        // Move the character controller
-        CharacterController.Move(velocity * Time.deltaTime);
+        if (movementVector != Vector3.zero)
+        {
+            transform.forward = movementVector; // Face the direction of movement
+        }
+        characterController.Move((movementVector + velocity) * Time.deltaTime);
+    }
 
-
+    private void Jump()
+    {
+        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        jumpsLeft--;
     }
 }
