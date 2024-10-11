@@ -5,40 +5,59 @@ using UnityEngine;
 public class PlayerColor : MonoBehaviour
 {
     [SerializeField]
-    private Material light;
+    private Material lightMaterial;  // Material claro
     [SerializeField]
-    private Material dark;
+    private Material darkMaterial;   // Material oscuro
 
-    private Renderer objectRenderer;
+    [SerializeField]
+    private GameObject playerModel;  // Modelo del jugador que contiene el Renderer
+
+    private Renderer modelRenderer;  // Renderer del modelo
     private bool isLight = true;
-    // Start is called before the first frame update
+
     void Start()
     {
-        objectRenderer = GetComponent<Renderer>();
-        // Set the initial material
-        objectRenderer.material = light;
+        // Obtener el Renderer del modelo del jugador
+        modelRenderer = playerModel.GetComponent<Renderer>();
+
+        // Establecer el material inicial
+        modelRenderer.material = lightMaterial;
+
+        // Establecer la capa inicial del objeto que contiene el script
+        gameObject.layer = LayerMask.NameToLayer("Light");  // Cambiar la capa del parent a "Light"
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L)) // Change to the desired input if necessary
+        if (Input.GetKeyDown(KeyCode.L)) // Cambia a la tecla o input deseado
         {
             SwitchLight();
         }
     }
 
+    // Método para cambiar entre los materiales claro y oscuro
     private void SwitchLight()
     {
         if (isLight)
         {
-            objectRenderer.material = dark;
+            // Cambiar al material oscuro en el modelo
+            modelRenderer.material = darkMaterial;
+
+            // Cambiar la capa (Layer) del objeto que contiene el script a "Darkness"
+            gameObject.layer = LayerMask.NameToLayer("Darkness");
+
+        
         }
         else
         {
-            objectRenderer.material = light;
+            // Cambiar al material claro en el modelo
+            modelRenderer.material = lightMaterial;
+
+            // Cambiar la capa (Layer) del objeto que contiene el script a "Light"
+            gameObject.layer = LayerMask.NameToLayer("Light");
+
         }
 
-        isLight = !isLight;
+        isLight = !isLight;  // Cambiar el estado de la luz
     }
 }

@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : PlatformLight
 {
-
     [SerializeField]
     private WayPoints camino;
     [SerializeField]
@@ -17,6 +15,9 @@ public class MovingPlatform : MonoBehaviour
 
     private float tiempo = 5;
     private float elapsed;
+
+    // Nuevo campo serializado para elegir la capa desde el Inspector
+    
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +38,6 @@ public class MovingPlatform : MonoBehaviour
         {
             Siguiente();
         }
-
-
     }
 
     private void Siguiente()
@@ -53,21 +52,4 @@ public class MovingPlatform : MonoBehaviour
         float distancia = Vector3.Distance(anterior.position, actual.position);
         tiempo = distancia / velocidad;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag.Equals("Player"))
-        {
-            other.gameObject.transform.parent = transform;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag.Equals("Player"))
-        {
-            other.gameObject.transform.parent = null;
-        }
-    }
-
 }
