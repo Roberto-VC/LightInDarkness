@@ -852,6 +852,10 @@ PrefabInstance:
       propertyPath: platform
       value: 
       objectReference: {fileID: 1075021369}
+    - target: {fileID: 1509846488610958461, guid: 1d451420dbd580f42ad53646a7310290, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1553879443800099040, guid: 1d451420dbd580f42ad53646a7310290, type: 3}
       propertyPath: camino
       value: 
@@ -1023,6 +1027,9 @@ PrefabInstance:
       propertyPath: platform
       value: 
       objectReference: {fileID: 1510287075}
+    - target: {fileID: 7848698278516761879, guid: 7ddd580fefbe0664fbaf73d2a354fa3a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
