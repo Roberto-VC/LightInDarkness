@@ -17,7 +17,7 @@ public class MovingPlatform : PlatformLight
     private float elapsed;
 
     // Nuevo campo serializado para elegir la capa desde el Inspector
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +43,9 @@ public class MovingPlatform : PlatformLight
     private void Siguiente()
     {
         anterior = camino.GetPunto(indice);
-        Debug.Log(indice);
+        //Debug.Log(indice);
         indice = camino.GetNextPuntoIndex(indice);
-        Debug.Log(indice);
+        //Debug.Log(indice);
         actual = camino.GetPunto(indice);
 
         elapsed = 0;
