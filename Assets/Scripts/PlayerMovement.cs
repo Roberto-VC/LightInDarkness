@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private Transform cameraTransform;
+    private bool isAttacking = false;
 
     void Start()
     {
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player is grounded
         isGrounded = characterController.isGrounded;
 
+
         // Reset vertical velocity and jumps when grounded
         if (isGrounded)
         {
@@ -44,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
             jumpsLeft = maxJumps;
             animator.SetBool("Ground", true);
         }
+
+
 
         float movx = Input.GetAxis("Horizontal");
         float movz = Input.GetAxis("Vertical");
@@ -62,6 +67,11 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            animator.SetTrigger("Attack");
+        }
+
         velocity.y += gravity * Time.deltaTime;
 
         if (movementVector != Vector3.zero)
@@ -69,11 +79,21 @@ public class PlayerMovement : MonoBehaviour
             transform.forward = movementVector; // Face the direction of movement
         }
         characterController.Move((movementVector + velocity) * Time.deltaTime);
+
+
     }
 
     private void Jump()
     {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         jumpsLeft--;
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            HealthManager.TakeDamage(10);
+        }
     }
 }
