@@ -43,9 +43,9 @@ public class MovingPlatform : PlatformLight
     private void Siguiente()
     {
         anterior = camino.GetPunto(indice);
-        Debug.Log(indice);
+        
         indice = camino.GetNextPuntoIndex(indice);
-        Debug.Log(indice);
+        
         actual = camino.GetPunto(indice);
 
         elapsed = 0;

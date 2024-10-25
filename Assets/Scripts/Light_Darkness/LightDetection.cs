@@ -1,79 +1,71 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightDetection : MonoBehaviour
 {
-    [Header("Settings")]
-    [Tooltip("The camera who scans for light.")]
-    public Camera m_camLightScan;
-    [Tooltip("Show the light value in the log.")]
-    public bool m_bLogLightValue = false;
-    [Tooltip("Time between light value updates (default = 0.1f).")]
-    public float m_fUpdateTime = 0.1f;
+    [Header("Configuración")]
+    [Tooltip("La cámara que escanea la luz.")]
+    public Camera camLightScan;
+    [Tooltip("Mostrar el valor de la luz en el log.")]
+    public bool logLightValue = false;
+    [Tooltip("Tiempo entre actualizaciones del valor de luz (por defecto = 0.1f).")]
+    public float updateTime = 0.1f;
+    [Tooltip("Umbral para determinar si la luz debe ser registrada.")]
+    public float lightThreshold = 0.5f;
 
-    public static float s_fLightValue;
+    public static float lightValue;
+    private const int textureSize = 1;
 
-    private const int c_iTextureSize = 1;
-
-    private Texture2D m_texLight;
-    private RenderTexture m_texTemp;
-    private Rect m_rectLight;
-    private Color m_LightPixel;
+    private Texture2D texLight;
+    private RenderTexture texTemp;
+    private Rect rectLight;
+    private Color lightPixel;
 
     private void Start()
     {
         StartLightDetection();
     }
 
-    /// <summary>
-    /// Prepare all needed variables and start the light detection coroutine.
-    /// </summary>
     private void StartLightDetection()
     {
-        m_texLight = new Texture2D(c_iTextureSize, c_iTextureSize, TextureFormat.RGB24, false);
-        m_texTemp = new RenderTexture(c_iTextureSize, c_iTextureSize, 24);
-        m_rectLight = new Rect(0f, 0f, c_iTextureSize, c_iTextureSize);
+        texLight = new Texture2D(textureSize, textureSize, TextureFormat.RGB24, false);
+        texTemp = new RenderTexture(textureSize, textureSize, 24);
+        rectLight = new Rect(0f, 0f, textureSize, textureSize);
 
-        StartCoroutine(LightDetectionUpdate(m_fUpdateTime));
+        StartCoroutine(LightDetectionUpdate(updateTime));
     }
-
-    /// <summary>
-    /// Updates the light value each x seconds.
-    /// </summary>
-    /// <param name="_fUpdateTime">Time in seconds between updates.</param>
-    /// <returns></returns>
-    private IEnumerator LightDetectionUpdate(float _fUpdateTime)
+    
+    private IEnumerator LightDetectionUpdate(float updateTime)
     {
         while (true)
         {
-            //Set the target texture of the cam.
-            m_camLightScan.targetTexture = m_texTemp;
-            //Render into the set target texture.
-            m_camLightScan.Render();
+            camLightScan.targetTexture = texTemp;
+            camLightScan.Render();
 
-            //Set the target texture as the active rendered texture.
-            RenderTexture.active = m_texTemp;
-            //Read the active rendered texture.
-            m_texLight.ReadPixels(m_rectLight, 0, 0);
+            RenderTexture.active = texTemp;
+            texLight.ReadPixels(rectLight, 0, 0);
 
-            //Reset the active rendered texture.
             RenderTexture.active = null;
-            //Reset the target texture of the cam.
-            m_camLightScan.targetTexture = null;
+            camLightScan.targetTexture = null;
 
-            //Read the pixel in middle of the texture.
-            m_LightPixel = m_texLight.GetPixel(c_iTextureSize / 2, c_iTextureSize / 2);
+            lightPixel = texLight.GetPixel(textureSize / 2, textureSize / 2);
 
-            //Calculate light value, based on color intensity (from 0f to 1f).
-            s_fLightValue = (m_LightPixel.r + m_LightPixel.g + m_LightPixel.b) / 3f;
+            // Calcular el valor de la luz basado en la intensidad del color
+            lightValue = (lightPixel.r + lightPixel.g + lightPixel.b) / 3f;
 
-            if (m_bLogLightValue)
+            // Detectar color específico según el threshold
+            if (lightValue > lightThreshold)
             {
-                Debug.Log("Light Value: " + s_fLightValue);
+                Debug.Log("El valor de luz supera el umbral: " + lightValue);
             }
 
-            yield return new WaitForSeconds(_fUpdateTime);
+            // Mostrar el valor de la luz si está habilitado
+            if (logLightValue)
+            {
+                Debug.Log("Valor de luz: " + lightValue);
+            }
+
+            yield return new WaitForSeconds(updateTime);
         }
     }
 }
