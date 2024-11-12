@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -67,9 +68,12 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
+        Debug.DrawRay(gameObject.transform.position += new Vector3(0, 1, 0), gameObject.transform.forward * attackDistance, Color.red, 1.0f);
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             animator.SetTrigger("Attack");
+            Attack();
         }
 
         velocity.y += gravity * Time.deltaTime;
@@ -79,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
             transform.forward = movementVector; // Face the direction of movement
         }
         characterController.Move((movementVector + velocity) * Time.deltaTime);
-
 
     }
 
@@ -95,5 +98,78 @@ public class PlayerMovement : MonoBehaviour
         {
             HealthManager.TakeDamage(10);
         }
+    }
+
+    
+
+    [Header("Atacar")]
+    public float attackDistance = 3f;
+    public float attackDelay = 0.4f;
+    public float attackSpeed = 1f;
+    public int attackDamage = 1;
+    public LayerMask attackLayer;
+    public AudioClip swordSwing;
+    public AudioClip hitSound;
+
+    bool attacking = false;
+    bool readyToAttack = true;
+    int attackCount;
+
+    public void Attack()
+    {
+        if(!readyToAttack || attacking) return;
+
+        readyToAttack = false;
+        attacking = true;
+
+        Invoke(nameof(ResetAttack), attackSpeed);
+        Invoke(nameof(AttackRaycast), attackDelay);
+
+        if(attackCount == 0)
+        {
+            attackCount++;
+        }
+        else
+        {
+            attackCount = 0;
+        }
+    }
+
+    void ResetAttack()
+    {
+        attacking = false;
+        readyToAttack = true;
+    }
+
+    void AttackRaycast()
+    {
+        // Convierte la capa actual del jugador a un LayerMask para el Raycast
+        int playerLayer = gameObject.layer;
+        LayerMask attackLayer = 1 << playerLayer; // Convierte la capa a LayerMask
+
+        print("Capa actual del jugador: " + LayerMask.LayerToName(playerLayer));
+
+        // Ajusta la posición inicial del Raycast 1 unidad hacia arriba
+        Vector3 raycastOrigin = gameObject.transform.position + new Vector3(0, 1, 0);
+
+        // Ejecuta el Raycast usando la capa actual del jugador
+        if (Physics.Raycast(raycastOrigin, gameObject.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
+        { 
+            HitTarget(hit.point);
+
+            print("Objeto golpeado: " + hit.transform.name);
+
+            // Si el objeto golpeado tiene el componente Actor
+            // Aca poner si el enemigo tiene un take damage
+            // if (hit.transform.TryGetComponent<Actor>(out Actor actor))
+            // {
+            //     actor.TakeDamage(attackDamage);
+            // }
+        } 
+    }
+
+    void HitTarget(Vector3 pos)
+    {
+        print(pos);
     }
 }

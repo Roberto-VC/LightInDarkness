@@ -11,6 +11,7 @@ public class HealthManager : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth; // Initialize current health
+        
     }
 
     public static void TakeDamage(int damageAmount)
@@ -28,6 +29,7 @@ public class HealthManager : MonoBehaviour
     {
         // Handle death (e.g., play death animation, disable enemy)
         Debug.Log("Enemy died");
+       
         // Optionally, you can disable the enemy GameObject
     }
 
