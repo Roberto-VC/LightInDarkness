@@ -32,6 +32,5 @@ public class CameraController : MonoBehaviour
         transform.position = smoothedPosition;
 
         // Make the camera look at the player
-        transform.LookAt(player.position);
     }
 }

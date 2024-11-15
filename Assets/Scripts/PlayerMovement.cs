@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
         if (collider.gameObject.CompareTag("Enemy"))
         {
             HealthManager.TakeDamage(10);
+            
         }
     }
 }

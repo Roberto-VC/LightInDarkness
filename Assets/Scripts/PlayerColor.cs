@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerColor : MonoBehaviour
 {
@@ -29,6 +31,13 @@ public class PlayerColor : MonoBehaviour
 
     void Update()
     {
+        if (Gamepad.all.Count > 0)
+        {
+            if (Gamepad.all[0].rightShoulder.wasPressedThisFrame)
+            {
+                SwitchLight();
+            }
+        }
         if (Input.GetKeyDown(KeyCode.L)) // Cambia a la tecla o input deseado
         {
             SwitchLight();
@@ -46,7 +55,7 @@ public class PlayerColor : MonoBehaviour
             // Cambiar la capa (Layer) del objeto que contiene el script a "Darkness"
             gameObject.layer = LayerMask.NameToLayer("Darkness");
 
-        
+
         }
         else
         {
