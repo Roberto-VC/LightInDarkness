@@ -155,9 +155,7 @@ public class PlayerMovement : MonoBehaviour
         // Ejecuta el Raycast usando la capa actual del jugador
         if (Physics.Raycast(raycastOrigin, gameObject.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
         { 
-            HitTarget(hit.point);
-
-            print("Objeto golpeado: " + hit.transform.name);
+            Destroy(hit.transform.gameObject);
 
             // Si el objeto golpeado tiene el componente Actor
             // Aca poner si el enemigo tiene un take damage
