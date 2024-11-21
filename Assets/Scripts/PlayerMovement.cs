@@ -57,11 +57,14 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+        float deadZone = 0.1f; // Set an appropriate threshold for movement
+
         float movx = Input.GetAxis("Horizontal");
         float movz = Input.GetAxis("Vertical");
 
         animator.SetFloat("inputH", movx);
         animator.SetFloat("inputV", movz);
+
 
 
 
@@ -84,11 +87,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         velocity.y += gravity * Time.deltaTime;
+        float movementThreshold = 0.1f;
 
-        if (movementVector != Vector3.zero)
+        if (movementVector.magnitude > movementThreshold)
         {
             transform.forward = movementVector; // Face the direction of movement
+
         }
+        else
+        {
+
+        }
+
         characterController.Move((movementVector + velocity) * Time.deltaTime);
 
     }
@@ -98,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         jumpsLeft--;
         animator.SetBool("Ground", false);
+        SoundManager.Instance.PlayJumpSound();
     }
 
     private void OnTriggerEnter(Collider collider)
