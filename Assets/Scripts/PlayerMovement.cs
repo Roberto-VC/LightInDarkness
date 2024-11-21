@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 1f;
     public float gravity = -9.81f;
 
+
     private CharacterController characterController;
 
     private bool isGrounded;
@@ -25,17 +26,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Transform cameraTransform;
     private bool isAttacking = false;
+    public static int health = 100;
+    [SerializeField]
+    private ProgressBar progressBar;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         jumpsLeft = maxJumps; // Initialize jumps left
+
     }
 
     void Update()
     {
         // Check if the player is grounded
         isGrounded = characterController.isGrounded;
+        progressBar.SetProgress(health / 100);
 
 
         // Reset vertical velocity and jumps when grounded
@@ -65,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && jumpsLeft > 0)
         {
+
             Jump();
         }
 
@@ -90,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         jumpsLeft--;
+        animator.SetBool("Ground", false);
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -100,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
 
     [Header("Atacar")]
     public float attackDistance = 3f;
@@ -117,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Attack()
     {
-        if(!readyToAttack || attacking) return;
+        if (!readyToAttack || attacking) return;
 
         readyToAttack = false;
         attacking = true;
@@ -125,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
         Invoke(nameof(ResetAttack), attackSpeed);
         Invoke(nameof(AttackRaycast), attackDelay);
 
-        if(attackCount == 0)
+        if (attackCount == 0)
         {
             attackCount++;
         }
@@ -154,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Ejecuta el Raycast usando la capa actual del jugador
         if (Physics.Raycast(raycastOrigin, gameObject.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
-        { 
+        {
             Destroy(hit.transform.gameObject);
 
             // Si el objeto golpeado tiene el componente Actor
@@ -163,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
             // {
             //     actor.TakeDamage(attackDamage);
             // }
-        } 
+        }
     }
 
     void HitTarget(Vector3 pos)
