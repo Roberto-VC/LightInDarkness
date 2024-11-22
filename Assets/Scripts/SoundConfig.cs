@@ -22,4 +22,6 @@ public class SoundConfig : ScriptableObject
     public SoundData walkSound;
     public SoundData jumpSound;
 
+    public SoundData attackSound;
+
 }

@@ -11,6 +11,8 @@ public class PlayerColor : MonoBehaviour
 
     [SerializeField]
     private GameObject playerModel;  // Modelo del jugador que contiene el Renderer
+    [SerializeField]
+    private GameObject light;
 
     private Renderer modelRenderer;  // Renderer del modelo
     private bool isLight = true;
@@ -41,6 +43,7 @@ public class PlayerColor : MonoBehaviour
         if (isLight)
         {
             // Cambiar al material oscuro en el modelo
+            light.gameObject.SetActive(false);
             modelRenderer.material = darkMaterial;
 
             // Cambiar la capa (Layer) del objeto que contiene el script a "Darkness"
@@ -52,7 +55,7 @@ public class PlayerColor : MonoBehaviour
         {
             // Cambiar al material claro en el modelo
             modelRenderer.material = lightMaterial;
-
+            light.gameObject.SetActive(true);
             // Cambiar la capa (Layer) del objeto que contiene el script a "Light"
             gameObject.layer = LayerMask.NameToLayer("Light");
 

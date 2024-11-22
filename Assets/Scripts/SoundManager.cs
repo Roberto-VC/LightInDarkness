@@ -187,6 +187,16 @@ public class SoundManager : MonoBehaviour
 
     }
 
+    public void PlayAttackSound()
+    {
+        sfxPlayer.clip = soundConfig.attackSound.clip;
+        sfxPlayer.volume = soundConfig.attackSound.volume;
+        sfxPlayer.loop = soundConfig.attackSound.loop;
+        sfxPlayer.time = 0.3f;
+        sfxPlayer.Play();
+
+    }
+
     public void DestroyInstance()
     {
         Destroy(gameObject);

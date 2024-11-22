@@ -7951,6 +7951,7 @@ MonoBehaviour:
   lightMaterial: {fileID: 2076345078477490638, guid: f112300571d439b4a95864210e666ea3, type: 3}
   darkMaterial: {fileID: 2100000, guid: 6767f0b166fd5da49b7680d5721288d4, type: 2}
   playerModel: {fileID: 2065027828}
+  light: {fileID: 268531167}
 --- !u!114 &1514757285
 MonoBehaviour:
   m_ObjectHideFlags: 0

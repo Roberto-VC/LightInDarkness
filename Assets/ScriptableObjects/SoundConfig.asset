@@ -68,3 +68,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 32d3cee4a481fd64ab8f4566cf496ef3, type: 3}
     volume: 100
     loop: 0
+  attackSound:
+    clip: {fileID: 8300000, guid: 3a80863aff20f4248ace1fe6bce6088e, type: 3}
+    volume: 100
+    loop: 0
