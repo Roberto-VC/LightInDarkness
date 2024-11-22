@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     public static int health = 100;
     [SerializeField]
     private ProgressBar progressBar;
+    [SerializeField]
+    private AudioSource audio;
 
     void Start()
     {
@@ -41,7 +43,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Check if the player is grounded
         isGrounded = characterController.isGrounded;
-        progressBar.SetProgress(health / 100);
+        float health = HealthManager.getHealth();
+        progressBar.SetProgress(health);
 
 
         // Reset vertical velocity and jumps when grounded
@@ -61,6 +64,18 @@ public class PlayerMovement : MonoBehaviour
 
         float movx = Input.GetAxis("Horizontal");
         float movz = Input.GetAxis("Vertical");
+
+        if (health <= 0.0f)
+        {
+            movx = 0;
+            movz = 0;
+            jumpsLeft = 0;
+            animator.SetBool("death", true);
+        }
+        else
+        {
+            animator.SetBool("death", false);
+        }
 
         animator.SetFloat("inputH", movx);
         animator.SetFloat("inputV", movz);

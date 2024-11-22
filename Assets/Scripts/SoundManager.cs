@@ -183,7 +183,6 @@ public class SoundManager : MonoBehaviour
         sfxPlayer.volume = soundConfig.jumpSound.volume;
         sfxPlayer.loop = soundConfig.jumpSound.loop;
         sfxPlayer.time = 0.2f;
-        Debug.Log(":)");
         sfxPlayer.Play();
 
     }

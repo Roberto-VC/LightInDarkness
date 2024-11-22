@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SoundConfig
   m_EditorClassIdentifier: 
   gameMuisc:
-    clip: {fileID: 0}
-    volume: 0
-    loop: 0
+    clip: {fileID: 8300000, guid: 84e13aa22950de84990eef4dbebf0952, type: 3}
+    volume: 10
+    loop: 1
   menuMusic:
     clip: {fileID: 0}
     volume: 0
@@ -64,3 +64,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 54c558451e011344cba33807beb9713a, type: 3}
     volume: 100
     loop: 1
+  jumpSound:
+    clip: {fileID: 8300000, guid: 32d3cee4a481fd64ab8f4566cf496ef3, type: 3}
+    volume: 100
+    loop: 0
