@@ -128,7 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771749550800822110, guid: 2ee250a677dc8114abc236ce7fcaef2c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.26
+      value: 0.16048877
       objectReference: {fileID: 0}
     - target: {fileID: 8771749550800822110, guid: 2ee250a677dc8114abc236ce7fcaef2c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -185,14 +185,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927605508119657607}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c85456f6fb2b145bfb2adb5acb3413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   visibleTime: 3
   invisibleTime: 2
-  platform: {fileID: 0}
+  platform: {fileID: 1927605508119657607}
 --- !u!4 &7515252453439118210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8771749550800822110, guid: 2ee250a677dc8114abc236ce7fcaef2c, type: 3}

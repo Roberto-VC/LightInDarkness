@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
-        Debug.DrawRay(gameObject.transform.position += new Vector3(0, 1, 0), gameObject.transform.forward * attackDistance, Color.red, 1.0f);
+        Debug.DrawRay(gameObject.transform.position -= new Vector3(0, 1, 0), gameObject.transform.forward * attackDistance, Color.red, 1.0f);
 
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         print("Capa actual del jugador: " + LayerMask.LayerToName(playerLayer));
 
         // Ajusta la posición inicial del Raycast 1 unidad hacia arriba
-        Vector3 raycastOrigin = gameObject.transform.position + new Vector3(0, 1, 0);
+        Vector3 raycastOrigin = gameObject.transform.position - new Vector3(0, 1, 0);
 
         // Ejecuta el Raycast usando la capa actual del jugador
         if (Physics.Raycast(raycastOrigin, gameObject.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
